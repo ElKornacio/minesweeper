@@ -1,4 +1,21 @@
 .face-button {
     width: 40px;
     height: 40px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    &.state-pressed {
+        background-image: url(../../assets/face_pressed.svg);
+    }
+    &.state-unpressed {
+        background-image: url(../../assets/face_unpressed.svg);
+    }
+    &.state-win {
+        background-image: url(../../assets/face_win.svg);
+    }
+    &.state-lose {
+        background-image: url(../../assets/face_lose.svg);
+    }
 }

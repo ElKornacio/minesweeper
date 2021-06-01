@@ -3,11 +3,18 @@ html, body {
     margin: 0;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .app {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
+
+    width: 100vw;
+    height: 100vh;
 
     border: 10px solid #c6c6c6;
 }

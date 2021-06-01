@@ -2,13 +2,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 
-    width: 62px;
-    height: 33px;
-
-    padding: 4px 3px;
-    padding-top: 4.5px;
+    width: 68px;
+    height: 42px;
 
     background-image: url(../../assets/nums_background.svg);
     background-repeat: no-repeat;
@@ -19,7 +16,42 @@
     width: 19px;
     height: 36px;
 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
     &:not(:last-child) {
-        margin-right: 3px;
+        margin-right: 2.5px;
+    }
+
+    &.d0 {
+        background-image: url(../../assets/d0.svg);
+    }
+    &.d1 {
+        background-image: url(../../assets/d1.svg);
+    }
+    &.d2 {
+        background-image: url(../../assets/d2.svg);
+    }
+    &.d3 {
+        background-image: url(../../assets/d3.svg);
+    }
+    &.d4 {
+        background-image: url(../../assets/d4.svg);
+    }
+    &.d5 {
+        background-image: url(../../assets/d5.svg);
+    }
+    &.d6 {
+        background-image: url(../../assets/d6.svg);
+    }
+    &.d7 {
+        background-image: url(../../assets/d7.svg);
+    }
+    &.d8 {
+        background-image: url(../../assets/d8.svg);
+    }
+    &.d9 {
+        background-image: url(../../assets/d9.svg);
     }
 }

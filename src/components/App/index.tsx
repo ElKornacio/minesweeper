@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DigitsCounter from '../DigitsCounter';
 import FaceButton from '../FaceButton';
 
 import './style.scss';
 
 function App() {
+    const [ time, setTime ] = useState(84);
+
     return (
         <div className="app">
             <div className="header">
-                <div className="time"><DigitsCounter value={99} /></div>
+                <div className="time"><DigitsCounter value={time} /></div>
                 <div className="restart">
                     <FaceButton state="unpressed" />
                 </div>
