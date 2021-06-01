@@ -1,0 +1,82 @@
+.field-wrapper {
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    background-color: #c6c6c6;
+
+    border-top: 5px solid #808080;
+    border-left: 5px solid #808080;
+    border-right: 5px solid #ffffff;
+    border-bottom: 5px solid #ffffff;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.field {
+    width: 0px;
+    height: 0px;
+    overflow: visible;
+    // border: 1px solid black;
+
+    .cell {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    background-image: url(../../assets/closed.png);
+
+    &.cell-m1 {
+        background-image: url(../../assets/type1.png);
+    }
+    &.cell-m2 {
+        background-image: url(../../assets/type2.png);
+    }
+    &.cell-m3 {
+        background-image: url(../../assets/type3.png);
+    }
+    &.cell-m4 {
+        background-image: url(../../assets/type4.png);
+    }
+    &.cell-m5 {
+        background-image: url(../../assets/type5.png);
+    }
+    &.cell-m6 {
+        background-image: url(../../assets/type6.png);
+    }
+    &.cell-m7 {
+        background-image: url(../../assets/type7.png);
+    }
+    &.cell-m8 {
+        background-image: url(../../assets/type8.png);
+    }
+
+    &.cell-state-empty {
+        background-image: url(../../assets/type0.png);
+    }
+    &.cell-state-unopened {
+        background-image: url(../../assets/closed.png);
+    }
+    &.cell-state-mine {
+        background-image: url(../../assets/mine.png);
+    }
+    &.cell-state-exploded {
+        background-image: url(../../assets/mine_red.png);
+    }
+    &.cell-state-flag {
+        background-image: url(../../assets/flag.png);
+    }
+    &.cell-state-flag-wrong {
+        background-image: url(../../assets/mine_wrong.png);
+    }
+}

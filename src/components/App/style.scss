@@ -1,10 +1,6 @@
-html, body {
-    padding: 0;
-    margin: 0;
-}
-
-* {
-    box-sizing: border-box;
+body {
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
 }
 
 .app {
@@ -17,6 +13,7 @@ html, body {
     height: 100vh;
 
     border: 10px solid #c6c6c6;
+    overflow: hidden;
 }
 
 .header {
@@ -32,18 +29,6 @@ html, body {
     padding: 5px 10px;
 
     background-color: #c0c0c0;
-
-    border-top: 5px solid #808080;
-    border-left: 5px solid #808080;
-    border-right: 5px solid #ffffff;
-    border-bottom: 5px solid #ffffff;
-}
-
-.field {
-    flex-grow: 1;
-    flex-shrink: 1;
-
-    background-color: #c6c6c6;
 
     border-top: 5px solid #808080;
     border-left: 5px solid #808080;

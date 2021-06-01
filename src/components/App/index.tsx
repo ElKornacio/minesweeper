@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DigitsCounter from '../DigitsCounter';
 import FaceButton from '../FaceButton';
+import Field from '../Field';
 
 import './style.scss';
 
@@ -16,9 +17,7 @@ function App() {
                 </div>
                 <div className="mines-left"><DigitsCounter value={13} /></div>
             </div>
-            <div className="field">
-                test
-            </div>
+            <Field params={{ columns: 100, rows: 100, mines: 5 }} />
         </div>
     )
 }
