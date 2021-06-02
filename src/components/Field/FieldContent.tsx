@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { HTMLAttributes, useCallback } from "react";
+import React, { HTMLAttributes, useCallback } from "react";
 import { IGameParams } from ".";
 import { CELL_CLASS, cellSize } from "./consts";
 
@@ -19,8 +19,10 @@ interface ICellProps {
     state: number;
     x: number;
     y: number;
-    onCellClick: (x: number, y: number) => void;
+    onCellClick: (leftButton: boolean, x: number, y: number) => void;
 }
+
+const preventContextMenu = (e: React.MouseEvent) => e.preventDefault();
 
 function Cell(props: HTMLAttributes<HTMLDivElement> & ICellProps) {
     const { state, className, x, y, onCellClick, ...rest } = props;
@@ -28,10 +30,11 @@ function Cell(props: HTMLAttributes<HTMLDivElement> & ICellProps) {
     return (
         <div
             className={classNames('cell', `cell-${cls}`, className)}
-            onClick={e => {
+            onContextMenu={preventContextMenu}
+            onMouseUp={e => {
                 e.preventDefault();
-
-                onCellClick(x, y);
+                e.stopPropagation();
+                onCellClick(e.button === 0, x, y);
             }}
             {...rest}
         />
@@ -42,7 +45,7 @@ interface ICellsProps {
     params: IGameParams;
     field: Uint8Array;
     smallSlice: IFieldSmallSlice;
-    onCellClick: (x: number, y: number) => void;
+    onCellClick: (leftButton: boolean, x: number, y: number) => void;
 }
 
 function Cells({ params, field, smallSlice, onCellClick }: ICellsProps) {
@@ -68,11 +71,13 @@ function Cells({ params, field, smallSlice, onCellClick }: ICellsProps) {
     return (<>{array}</>)
 }
 
-export default function FieldContent({ params, field, slice, onCellClick }: { params: IGameParams, field: Uint8Array, slice: IFieldSlice, onCellClick: (x: number, y: number) => void }) {
+export default function FieldContent({ params, field, slice, onCellClick }: { params: IGameParams, field: Uint8Array, slice: IFieldSlice, onCellClick: (leftButton: boolean, x: number, y: number) => void }) {
     return (
         <div
             className="field"
             style={{
+                width: (slice.xEnd - slice.xStart) * cellSize + 2,
+                height: (slice.yEnd - slice.yStart) * cellSize + 2,
                 transform: `translate(${slice.tX}px, ${slice.tY}px)`
             }}
         >

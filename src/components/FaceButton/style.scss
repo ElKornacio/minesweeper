@@ -18,4 +18,8 @@
     &.state-lose {
         background-image: url(../../assets/face_lose.svg);
     }
+
+    &:active {
+        background-image: url(../../assets/face_pressed.svg);
+    }
 }

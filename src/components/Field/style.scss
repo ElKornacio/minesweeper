@@ -14,10 +14,8 @@
 }
 
 .field {
-    width: 0px;
-    height: 0px;
-    overflow: visible;
-    // border: 1px solid black;
+    border-right: 3px solid #808080;
+    border-bottom: 3px solid #808080;
 
     .cell {
         position: absolute;
@@ -61,22 +59,22 @@
         background-image: url(../../assets/type8.png);
     }
 
-    &.cell-state-empty {
+    &.cell-empty {
         background-image: url(../../assets/type0.png);
     }
-    &.cell-state-unopened {
+    &.cell-closed {
         background-image: url(../../assets/closed.png);
     }
-    &.cell-state-mine {
+    &.cell-mine {
         background-image: url(../../assets/mine.png);
     }
-    &.cell-state-exploded {
+    &.cell-exploded {
         background-image: url(../../assets/mine_red.png);
     }
-    &.cell-state-flag {
+    &.cell-flag {
         background-image: url(../../assets/flag.png);
     }
-    &.cell-state-flag-wrong {
+    &.cell-flag-wrong {
         background-image: url(../../assets/mine_wrong.png);
     }
 }
