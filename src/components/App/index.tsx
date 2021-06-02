@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import DigitsCounter from '../DigitsCounter';
 import FaceButton from '../FaceButton';
-import Field from '../Field';
+import Field, { IGameParams } from '../Field';
 import generateField from '../Field/generateField';
 
 import './style.scss';
 
 const defaultField = generateField({ columns: 20, rows: 20, mines: 70 });
 
-function Header({ gameId, gameState, onNewGame, minesLeft }: { gameId: string, gameState: 'none' | 'win' | 'lose', onNewGame: () => void, minesLeft: number }) {
+function Header({ params, gameId, gameState, onNewGame, minesLeft }: { params: IGameParams, gameId: string, gameState: 'none' | 'win' | 'lose', onNewGame: (columns: number, rows: number, mines: number) => void, minesLeft: number }) {
     const [ time, setTime ] = useState(0);
 
     useEffect(() => {
@@ -31,7 +31,10 @@ function Header({ gameId, gameState, onNewGame, minesLeft }: { gameId: string, g
             <div className="restart">
                 <FaceButton
                     state={gameState === 'none' ? "unpressed" : (gameState === 'lose' ? 'lose' : 'win')}
-                    onClick={onNewGame}
+                    onClick={() => {
+                        const [ columnsS, rowsS, minesS ] = prompt('Введите параметры через запятую: Columns,Rows,Mines', `${params.columns},${params.rows},${params.mines}`)!.split(',');
+                        onNewGame(Number(columnsS), Number(rowsS), Number(minesS));
+                    }}
                 />
             </div>
             <div className="mines-left"><DigitsCounter value={minesLeft} /></div>
@@ -48,14 +51,18 @@ function App() {
     const [ rows, setRows ] = useState('20');
     const [ mines, setMines ] = useState('70');
 
-    const newGameCallback = useCallback(() => {
-        setField(generateField({ columns: 20, rows: 20, mines: 70 }));
+    const newGameCallback = useCallback((columns: number, rows: number, mines: number) => {
+        setColumns(String(columns));
+        setRows(String(rows));
+        setMines(String(mines));
+        setField(generateField({ columns: columns, rows: rows, mines: mines }));
         setGameState('none');
     }, []);
 
     return (
         <div className="app" onClick={console.log}>
             <Header
+                params={{ columns: Number(columns), rows: Number(rows), mines: Number(mines) }}
                 gameId={gameId}
                 gameState={gameState}
                 onNewGame={newGameCallback}

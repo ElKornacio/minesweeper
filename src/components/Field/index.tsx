@@ -42,6 +42,11 @@ export default function Field({ params, onGameStateUpdate, field, onFieldUpdate,
     const [ X, setX ] = useState(initialX);
     const [ Y, setY ] = useState(initialY);
 
+    useEffect(() => {
+        setX(initialX);
+        setY(initialY);
+    }, [params]);
+
     const overHead = 3;
 
     const xViewportSize = Math.floor(fieldWrapperSize.width / cellSize) + overHead * 2;
