@@ -22,4 +22,31 @@
     &:active {
         background-image: url(../../assets/face_pressed.svg);
     }
+
+    &.loading {
+        animation: blink-animation 0.3s infinite;
+        -webkit-animation: blink-animation 0.3s infinite;
+    }
+}
+@keyframes blink-animation {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+  100% {
+    opacity: 1
+  }
+}
+@-webkit-keyframes blink-animation {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+  100% {
+    opacity: 1
+  }
 }

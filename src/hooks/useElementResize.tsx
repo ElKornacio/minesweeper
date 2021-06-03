@@ -1,9 +1,5 @@
 import { RefObject, useState, useEffect } from "react";
-
-export interface IDimensions {
-    width: number;
-    height: number;
-}
+import IDimensions from "../types/IDimensions";
 
 function getDimensions(ref: HTMLElement) {
     return {

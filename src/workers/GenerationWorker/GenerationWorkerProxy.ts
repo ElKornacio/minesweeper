@@ -1,6 +1,5 @@
 import { autobind } from 'core-decorators';
-import { IGameParams } from '../../components/Field';
-import { IFieldSlice } from '../../components/Field/generateField';
+import { IFieldSlice } from '../../utils/generateField';
 
 export default class GenerationWorkerProxy {
 

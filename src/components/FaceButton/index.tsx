@@ -5,11 +5,11 @@ import './style.scss';
 
 type FaceState = 'pressed' | 'unpressed' | 'win' | 'lose';
 
-export default function FaceButton(props: Exclude<React.HTMLAttributes<HTMLImageElement>, 'src'> & { state: FaceState }) {
-    const { state, ...rest } = props;
+export default function FaceButton(props: Exclude<React.HTMLAttributes<HTMLImageElement>, 'src'> & { loading: boolean, state: FaceState }) {
+    const { state, loading, ...rest } = props;
     return (
         <div
-            className={classNames('face-button', 'state-' + state)}
+            className={classNames('face-button', { loading }, 'state-' + state)}
             {...rest}
         />
     )

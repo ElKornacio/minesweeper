@@ -1,5 +1,5 @@
 import { autobind } from 'core-decorators';
-import { IGameParams } from '../../components/Field';
+import IGameParams from '../../types/IGameParams';
 
 export interface ISliceProcessingResult {
     colorsIndexes: Record<string, Uint32Array>;

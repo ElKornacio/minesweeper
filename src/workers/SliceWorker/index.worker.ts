@@ -1,5 +1,4 @@
-import { IGameParams } from "../../components/Field";
-import { ISliceProcessingResult } from "./SliceWorkerProxy";
+import IGameParams from "../../types/IGameParams";
 
 declare const self: Worker;
 export default {} as typeof Worker & { new(): Worker };
@@ -22,21 +21,14 @@ class PrebuiltArray extends Uint32Array {
 
 }
 
-function printField(params: IGameParams, field: Uint32Array) {
-    return;
-    for (let y = 0; y < params.rows; y++) {
-        let s = '';
-        for (let x = 0; x < params.columns; x++) {
-            s += field[x * params.columns + y] + ' ';
-        }
-        console.log(s);
-    }
-}
-
 function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colorsBuffer: SharedArrayBuffer) {
+    let start = Date.now();
     const field = new Uint8Array(fieldBuffer);
     const colors = new Uint32Array(colorsBuffer);
     colors.fill(0);
+
+    // console.log('just field:');
+    // printField(params, field);
 
     const colorsSize: Record<number, number> = {};
     const colorsEquals: Record<number, number> = {};
@@ -46,7 +38,6 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
     const conv = (x: number, y: number) => x * params.columns + y;
 
     // debugger;
-    const start = Date.now();
     let g = 0;
     for (let i = 0; i < field.length; i++) {
         if (field[i] !== 0) {
@@ -125,20 +116,22 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         //printField(params, colors);
     }
 
-    // // console.log('g: ', g);
-    // // console.log('color: ', color);
-    // // console.log('colorization time: ' + (Date.now() - start));
+    // console.log('g: ', g);
+    // console.log('color: ', color);
+    console.log('colorization time: ' + (Date.now() - start));
+    start = Date.now();
 
     const colorsIndexes: Record<number, PrebuiltArray> = {};
     const keys = [...new Array(color - 1)].map((e, i) => i + 2);
     // const uniqueColors = keys.slice();
 
-    // console.log('colorsEquals: ', colorsEquals);
+    // // console.log('colorsEquals: ', colorsEquals);
 
     let found = true;
     while (found) {
         found = false;
-        for (let key of keys) {
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
             if (colorsEquals[colorsEquals[Number(key)]]) {
                 colorsEquals[Number(key)] = colorsEquals[colorsEquals[Number(key)]];
                 found = true;
@@ -146,17 +139,22 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         }
     }
 
-    // // // console.log('colorsEquals: ', colorsEquals);
-    const uniqueColors = new Set(keys.map(key => colorsEquals[Number(key)] ? colorsEquals[Number(key)] : Number(key)));
-    // // // console.log('uniqueColors: ', uniqueColors);
+    console.log('b: ' + (Date.now() - start));
+    start = Date.now();
 
-    printField(params, colors);
-    // console.log('colorsSize: ', colorsSize);
-    // console.log('colorsEquals: ', colorsEquals);
-    // console.log('keys: ', keys);
+    // // console.log('colorsEquals: ', colorsEquals);
+    const uniqueColors = new Set(keys.map(key => colorsEquals[Number(key)] ? colorsEquals[Number(key)] : Number(key)));
+    // // console.log('uniqueColors: ', uniqueColors);
+
+    // console.log('simple color field:');
+    // printField(params, colors);
+    // // console.log('colorsSize: ', colorsSize);
+    // // console.log('colorsEquals: ', colorsEquals);
+    // // console.log('keys: ', keys);
 
     const newColorsSize: Record<number, number> = {};
-    for (let key of keys) {
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
         const k = colorsEquals[Number(key)] ? colorsEquals[Number(key)] : Number(key);
         if (!newColorsSize[k]) {
             newColorsSize[k] = colorsSize[Number(key)];
@@ -165,7 +163,7 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         }
     }
 
-    // console.log('newColorsSize: ', newColorsSize);
+    // // console.log('newColorsSize: ', newColorsSize);
 
     for (let i = 0; i < colors.length; i++) {
         if (!colors[i]) {
@@ -176,7 +174,8 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         }
     }
 
-    printField(params, colors);
+    // console.log('final color field:');
+    // printField(params, colors);
 
     for (let i = 0; i < colors.length; i++) {
         if (!colors[i]) {
@@ -191,17 +190,18 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         }
     }
 
-//     console.log('colorsIndexes: ', colorsIndexes);
+    // console.log('colorsIndexes: ', colorsIndexes);
 
     for (let i = 0; i < field.length; i++) {
         if (field[i] === 0 && colors[i] === 0) {
             debugger;
-            // // console.log('strange things: ', i);
+            console.log('strange things: ', i);
         }
     }
 
-    // // // console.log('color normalization time: ' + (Date.now() - start));
-    // console.log('uniqueColors: ', uniqueColors);
+    console.log('color normalization time: ' + (Date.now() - start));
+    start = Date.now();
+    // // console.log('uniqueColors: ', uniqueColors);
 
     const finalColorsIndexes = [...uniqueColors.values()].reduce((p, c) => {
         p[c] = colorsIndexes[c].compact();
@@ -209,6 +209,8 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
     }, {} as Record<string, Uint32Array>);
 
     // console.log('finalColorsIndexes: ', finalColorsIndexes);
+    // console.log('--------------------------------------------------------------');
+    console.log('final time: ' + (Date.now() - start));
 
     return { colorsIndexes: finalColorsIndexes };
 }
@@ -218,10 +220,10 @@ function colorizeField(fieldBuffer: SharedArrayBuffer, params: IGameParams, colo
         const { type, id, data } = ev.data;
         if (type === 'slice') {
             const { fieldBuffer, params, colorsBuffer } = data as { fieldBuffer: SharedArrayBuffer, params: IGameParams, colorsBuffer: SharedArrayBuffer };
-            // // // console.log('colorization got');
+            // console.log('colorization got');
             const start = Date.now();
             self.postMessage({ id, type: 'slice', data: colorizeField(fieldBuffer, params, colorsBuffer) });
-            // // console.log('colorization end: ' + (Date.now() - start) + 'ms');
+            console.log('colorization end: ' + (Date.now() - start) + 'ms');
         }
     };
     self.postMessage({

@@ -68,6 +68,10 @@
     &.cell-mine {
         background-image: url(../../assets/mine.png);
     }
+    &.cell-half-mine {
+        background-image: url(../../assets/mine.png);
+        opacity: 0.5;
+    }
     &.cell-exploded {
         background-image: url(../../assets/mine_red.png);
     }

@@ -1,7 +1,6 @@
-import { IGameParams } from ".";
-
-import SliceWorker from '../../workers/SliceWorker/index.worker';
-import SliceWorkerProxy from '../../workers/SliceWorker/SliceWorkerProxy';
+import IGameParams from '../types/IGameParams';
+import SliceWorker from '../workers/SliceWorker/index.worker';
+import SliceWorkerProxy from '../workers/SliceWorker/SliceWorkerProxy';
 
 export interface IColorizationResult {
     colors: Uint32Array;

@@ -1,5 +1,4 @@
-import { IGameParams } from "../../components/Field";
-import type { IFieldSlice } from "../../components/Field/generateField";
+import { IFieldSlice } from "../../utils/generateField";
 
 declare const self: Worker;
 export default {} as typeof Worker & { new(): Worker };
@@ -10,16 +9,6 @@ function mulberry32(a: number) {
         t = Math.imul(t ^ t >>> 15, t | 1);
         t ^= t + Math.imul(t ^ t >>> 7, t | 61);
         return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    }
-}
-
-function printField(params: IGameParams, field: Uint8Array) {
-    for (let y = 0; y < params.rows; y++) {
-        let s = '';
-        for (let x = 0; x < params.columns; x++) {
-            s += field[x * params.columns + y] + ' ';
-        }
-        console.log(s);
     }
 }
 
@@ -63,10 +52,10 @@ function generate(buffer: SharedArrayBuffer, offset: number, size: number, mines
         const { type, id, data } = ev.data;
         if (type === 'generate') {
             const { buffer, offset, size, mines, minesIndexes, emptiesIndexes } = data as { buffer: SharedArrayBuffer, offset: number, size: number, mines: number, minesIndexes: SharedArrayBuffer, emptiesIndexes: SharedArrayBuffer };
-            // console.log('Worker got offset: ' + offset);
+            console.log('Worker got offset: ' + offset);
             const start = Date.now();
             const result = generate(buffer, offset, size, mines, minesIndexes, emptiesIndexes);
-            // console.log('Worker done: ' + (Date.now() - start) + 'ms');
+            console.log('Worker done: ' + (Date.now() - start) + 'ms');
             self.postMessage({ id, type: 'generate', data: result });
         }
     };

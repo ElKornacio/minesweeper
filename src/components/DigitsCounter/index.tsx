@@ -3,7 +3,7 @@ import React from 'react';
 
 import './style.scss';
 
-export default function DigitsCounter(props: Exclude<React.HTMLAttributes<HTMLDivElement>, 'src'> & { value: number }) {
+function DigitsCounter(props: Exclude<React.HTMLAttributes<HTMLDivElement>, 'src'> & { value: number }) {
     const { value, className, ...rest } = props;
 
     const digits = value.toString().padStart(3, '0').split('');
@@ -19,3 +19,5 @@ export default function DigitsCounter(props: Exclude<React.HTMLAttributes<HTMLDi
         </div>
     )
 }
+
+export default React.memo(DigitsCounter);
