@@ -1,6 +1,7 @@
 body {
     overscroll-behavior-x: none;
     overscroll-behavior-y: none;
+    font-family: sans-serif;
 }
 
 .app {
@@ -12,6 +13,7 @@ body {
     width: 100vw;
     height: 100vh;
 
+    background-color: #c6c6c6;
     border: 10px solid #c6c6c6;
     overflow: hidden;
 
@@ -21,26 +23,15 @@ body {
     &.lose {
         border-color: red;
     }
-}
 
-.header {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 50px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 5px 10px;
-
-    background-color: #c0c0c0;
-
-    border-top: 5px solid #808080;
-    border-left: 5px solid #808080;
-    border-right: 5px solid #ffffff;
-    border-bottom: 5px solid #ffffff;
+    &.loading {
+        .placeholder {
+            color: transparent;
+        }
+        .field {
+            opacity: 0;
+        }
+    }
 }
 
 .placeholder {
@@ -53,6 +44,8 @@ body {
     background-color: #c6c6c6;
     color: black;
     font-size: 24px;
+
+    transition: color 0.4s;
 
     border-top: 5px solid #808080;
     border-left: 5px solid #808080;

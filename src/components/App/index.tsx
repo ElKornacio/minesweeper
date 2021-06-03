@@ -11,7 +11,7 @@ function App() {
     const { actions, state } = useMinesweeper();
 
     return (
-        <div className={classNames('app', state.gameState)}>
+        <div className={classNames('app', state.gameState, { loading: state.loading })}>
             <Header
                 params={state.params}
                 gameId={state.gameId}

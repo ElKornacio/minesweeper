@@ -21,7 +21,7 @@ async function getGame(params: IGameParams) {
 
 export default function useMinesweeper() {
     const [gameId, setGameId] = useState('1');
-    const [params, setParams] = useState({ columns: 10, rows: 10, mines: 95 });
+    const [params, setParams] = useState({ columns: 10, rows: 10, mines: 10 });
 
     const [flagsCount, setFlagsCount] = useState(0);
     const [gameState, setGameState] = useState<'none' | 'lose' | 'win'>('none');

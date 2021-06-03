@@ -17,7 +17,7 @@ export const CELL_CLASS: Record<number, string> = {
     6: 'closed',
     7: 'closed',
     8: 'closed',
-    9: 'half-mine',
+    9: 'closed',
 
     10: 'empty',
     11: 'm1',

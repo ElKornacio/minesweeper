@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import IGameParams from "../../types/IGameParams";
 import DigitsCounter from "../DigitsCounter";
 import FaceButton from "../FaceButton";
+import ParamsModal from "../ParamsModal";
+
+import './style.scss';
 
 export interface IHeaderProps {
     loading: boolean;
@@ -14,6 +17,7 @@ export interface IHeaderProps {
 
 export default function Header(props: IHeaderProps) {
     const [time, setTime] = useState(0);
+    const [paramsModalVisible, setParamsModalVisible] = useState(false);
 
     // timer tick
     useEffect(() => {
@@ -33,6 +37,14 @@ export default function Header(props: IHeaderProps) {
 
     return (
         <div className="header">
+            <ParamsModal
+                params={props.params}
+                visible={paramsModalVisible}
+                onNewParams={p => {
+                    props.onNewGame(p);
+                    setParamsModalVisible(false);
+                }}
+            />
             <div className="time">
                 <DigitsCounter value={time} />
             </div>
@@ -40,17 +52,7 @@ export default function Header(props: IHeaderProps) {
                 <FaceButton
                     loading={props.loading}
                     state={props.gameState === 'none' ? "unpressed" : props.gameState}
-                    onClick={() => {
-                        const [columnsS, rowsS, minesS] = prompt(
-                            'Введите параметры через запятую: Columns,Rows,Mines',
-                            `${props.params.columns},${props.params.rows},${props.params.mines}`
-                        )!.split(',');
-                        props.onNewGame({
-                            columns: Number(columnsS),
-                            rows: Number(rowsS),
-                            mines: Number(minesS)
-                        });
-                    }}
+                    onClick={() => setParamsModalVisible(true)}
                 />
             </div>
             <div className="mines-left">

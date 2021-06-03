@@ -17,6 +17,9 @@
     border-right: 3px solid #808080;
     border-bottom: 3px solid #808080;
 
+    transition: opacity 2s;
+    opacity: 1;
+
     .cell {
         position: absolute;
         left: 0;
