@@ -29,6 +29,7 @@ function Cell(props: HTMLAttributes<HTMLDivElement> & ICellProps) {
     const cls = CELL_CLASS[state];
     return (
         <div
+            data-state={state}
             className={classNames('cell', `cell-${cls}`, className)}
             onContextMenu={preventContextMenu}
             onMouseUp={e => {

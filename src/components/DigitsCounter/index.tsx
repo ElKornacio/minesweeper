@@ -6,10 +6,6 @@ import './style.scss';
 export default function DigitsCounter(props: Exclude<React.HTMLAttributes<HTMLDivElement>, 'src'> & { value: number }) {
     const { value, className, ...rest } = props;
 
-    if (value < 0) {
-        return null;
-    }
-
     const digits = value.toString().padStart(3, '0').split('');
 
     return (
