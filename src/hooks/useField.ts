@@ -3,6 +3,7 @@ import { IFieldProps } from "../components/Field";
 import { CELL_EXPLODED, CELL_FLAG_WRONG } from "../types/consts";
 import FieldArray from "../types/FieldArray";
 import IGameParams from "../types/IGameParams";
+import touchAround, { calcAround } from "../utils/touches";
 
 export default function useField(props: IFieldProps) {
     const {
@@ -92,7 +93,7 @@ export default function useField(props: IFieldProps) {
             if (newField[toIndex(x1, y1)] === 0) {
                 newField[toIndex(x1, y1)] = 10;
                 filledCellsInc++;
-                touchAround(x1, y1, (x2, y2) => {
+                touchAround(params, x1, y1, (x2, y2) => {
                     filledCellsInc += fillColorful(x2, y2, newField, colors, colorsIndexes);
                 });
             }
@@ -126,40 +127,11 @@ export default function useField(props: IFieldProps) {
         for (let i = 0; i < indexesToFill.length; i++) {
             const n = indexesToFill[i];
             if (n !== 999999999) {
-                touchAround(Math.floor(n / params.columns), n % params.columns, g);
+                touchAround(params, Math.floor(n / params.columns), n % params.columns, g);
             }
         }
 
         return filledCellsInc;
-    }
-
-    const touchCell = (x2: number, y2: number, callback: (x: number, y: number) => void) => {
-        if (x2 >= 0 && y2 >= 0 && x2 < params.columns && y2 < params.rows) {
-            callback(x2, y2);
-        }
-    };
-
-    const touchAround = (x: number, y: number, callback: (x: number, y: number) => void, withItself: boolean = false) => {
-        touchCell(x - 1, y - 1, callback);
-        touchCell(x, y - 1, callback);
-        touchCell(x + 1, y - 1, callback);
-
-        touchCell(x - 1, y, callback);
-        touchCell(x + 1, y, callback);
-
-        touchCell(x - 1, y + 1, callback);
-        touchCell(x, y + 1, callback);
-        touchCell(x + 1, y + 1, callback);
-
-        if (withItself) {
-            touchCell(x, y, callback);
-        }
-    }
-
-    const calcAround = (x: number, y: number, callback: (x: number, y: number) => number, withItself: boolean = false) => {
-        let c = 0;
-        touchAround(x, y, (x1, y1) => c += callback(x1, y1), withItself);
-        return c;
     }
 
     function substituteEmpty(x1: number, y1: number, newField: FieldArray, colors: Uint32Array, colorsIndexes: Record<string, Uint32Array>) {
@@ -172,11 +144,11 @@ export default function useField(props: IFieldProps) {
 
         const prevIndex = toIndex(x1, y1);
 
-        newField[prevIndex] = calcAround(x1, y1, (x, y) => newField[toIndex(x, y)] === 9 ? 1 : 0); // recalc
+        newField[prevIndex] = calcAround(params, x1, y1, (x, y) => newField[toIndex(x, y)] === 9 ? 1 : 0); // recalc
         newField[props.emptySubstitute] = 9; // recalc
 
         // new mine cell
-        touchAround(eX, eY, (x, y) => {
+        touchAround(params, eX, eY, (x, y) => {
             if ((x !== eX || y !== eY) && newField[toIndex(x, y)] < 8) {
                 newField[toIndex(x, y)] += 1;
             }
@@ -191,7 +163,7 @@ export default function useField(props: IFieldProps) {
         }, true);
 
         // new emtpy cell
-        touchAround(x1, y1, (x, y) => {
+        touchAround(params, x1, y1, (x, y) => {
             if ((x !== x1 || y !== y1) && newField[toIndex(x, y)] !== 9 && newField[toIndex(x, y)] > 0) {
                 newField[toIndex(x, y)] -= 1;
             }

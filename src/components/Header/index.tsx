@@ -3,6 +3,8 @@ import IGameParams from "../../types/IGameParams";
 import DigitsCounter from "../DigitsCounter";
 import FaceButton from "../FaceButton";
 
+import './style.scss';
+
 export interface IHeaderProps {
     loading: boolean;
     params: IGameParams;
@@ -41,14 +43,15 @@ export default function Header(props: IHeaderProps) {
                     loading={props.loading}
                     state={props.gameState === 'none' ? "unpressed" : props.gameState}
                     onClick={() => {
-                        const [columnsS, rowsS, minesS] = prompt(
-                            'Введите параметры через запятую: Columns,Rows,Mines',
-                            `${props.params.columns},${props.params.rows},${props.params.mines}`
-                        )!.split(',');
+                        // const [columnsS, rowsS, minesS] = prompt(
+                        //     'Введите параметры через запятую: Columns,Rows,Mines',
+                        //     `${props.params.columns},${props.params.rows},${props.params.mines}`
+                        // )!.split(',');
                         props.onNewGame({
-                            columns: Number(columnsS),
-                            rows: Number(rowsS),
-                            mines: Number(minesS)
+                            // columns: Number(columnsS),
+                            // rows: Number(rowsS),
+                            // mines: Number(minesS)
+                            ...props.params
                         });
                     }}
                 />

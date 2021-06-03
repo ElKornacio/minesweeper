@@ -23,26 +23,6 @@ body {
     }
 }
 
-.header {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 50px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 5px 10px;
-
-    background-color: #c0c0c0;
-
-    border-top: 5px solid #808080;
-    border-left: 5px solid #808080;
-    border-right: 5px solid #ffffff;
-    border-bottom: 5px solid #ffffff;
-}
-
 .placeholder {
     flex: 1;
 
